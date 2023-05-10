@@ -30,7 +30,7 @@ class UserCreate(BaseModel):
 
 
 class UserLogin(BaseModel):
-    email: str
+    email: EmailStr
     password: str
 
 
@@ -38,3 +38,8 @@ class ForgotPassword(BaseModel):
     token: str
     new_password: str
     confirm_new_password: str
+
+
+class OptionCreate(BaseModel):
+    question_id: int
+    option_text: str

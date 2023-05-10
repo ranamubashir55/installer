@@ -22,7 +22,7 @@ def get_settings() -> BaseSettings:
 
 
 def create_dirs():
-    folders = ['/logs']
+    folders = ['/logs', '/uploads']
     for dir in folders:
         isExist = os.path.exists(os.getcwd() + dir)
         if not isExist:
@@ -97,7 +97,7 @@ def custom_openapi(app):
             if (
                     re.search("Depends\\(authenticate\\)", inspect.getsource(endpoint)) or
                     re.search("jwt_required", inspect.getsource(endpoint)) or
-                    re.search("fresh_jwt_required", inspect.getsource(endpoint)) or
+                    re.search("jwt_refresh_token_required", inspect.getsource(endpoint)) or
                     re.search("jwt_optional", inspect.getsource(endpoint))
             ):
                 openapi_schema["paths"][path][method]["security"] = [

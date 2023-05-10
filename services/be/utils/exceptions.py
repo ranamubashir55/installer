@@ -4,7 +4,6 @@ from fastapi import status, Request
 
 def exception_handler(request: Request, exc):
     """Global AuthJWTException Handler for FastAPI app"""
-    print(dir(exc))
     if not hasattr(exc, 'status_code'):
         exc_status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
     else:

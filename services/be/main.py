@@ -1,7 +1,7 @@
 from logging.config import dictConfig
 from fastapi import FastAPI
 import uvicorn
-from api import ping, user, authentication
+from api import ping, user, authentication, questionare
 from config import create_dirs, log_config, custom_openapi
 from db import models
 from fastapi import HTTPException
@@ -21,10 +21,11 @@ def create_application() -> FastAPI:
         allow_headers=["*"],
     )
     application.add_exception_handler(AuthJWTException, exception_handler)
-    application.add_exception_handler(HTTPException, exception_handler)
+    application.add_exception_handler(Exception, exception_handler)
     application.include_router(ping.router)
     application.include_router(user.router, prefix="/user", tags=["users"])
     application.include_router(authentication.router, prefix="/user", tags=["users"])
+    application.include_router(questionare.router, prefix="/question", tags=["questions"])
     return application
 
 

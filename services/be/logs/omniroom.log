@@ -22,3 +22,36 @@ DETAIL:  Key (mobile)=(923316888416) already exists.
 [user.py:20]:2023-05-09 12:06:05 INFO New user created successfully
 [user.py:19]:2023-05-09 12:11:11 INFO New user created successfully
 [user.py:19]:2023-05-09 12:11:40 INFO New user created successfully
+[user.py:19]:2023-05-10 07:19:22 INFO New user created successfully
+[user.py:24]:2023-05-10 08:54:39 ERROR IntegrityError: duplicate key value violates unique constraint "users_mobile_key"
+DETAIL:  Key (mobile)=(923316888416) already exists.
+
+[user.py:24]:2023-05-10 08:56:32 ERROR IntegrityError: duplicate key value violates unique constraint "users_mobile_key"
+DETAIL:  Key (mobile)=(923316888416) already exists.
+
+[user.py:21]:2023-05-10 08:56:47 INFO New user created successfully
+[user.py:21]:2023-05-10 09:00:12 INFO New user created successfully
+[user.py:52]:2023-05-10 09:21:08 ERROR Update: IntegrityError: duplicate key value violates unique constraint "ix_users_email"
+DETAIL:  Key (email)=(user@example.com) already exists.
+
+[user.py:49]:2023-05-10 09:25:44 INFO User updated successfully
+[user.py:21]:2023-05-10 10:01:32 INFO New user created successfully
+[questionare.py:19]:2023-05-10 14:05:32 INFO New question created successfully
+[questionare.py:22]:2023-05-10 14:06:01 ERROR Create: IntegrityError: duplicate key value violates unique constraint "questions_question_text_key"
+DETAIL:  Key (question_text)=(What best describes your industry?) already exists.
+
+[questionare.py:20]:2023-05-10 14:11:01 INFO New question created successfully
+[questionare.py:23]:2023-05-10 14:12:17 ERROR Create: IntegrityError: duplicate key value violates unique constraint "questions_question_text_key"
+DETAIL:  Key (question_text)=(What do you want to optimize?) already exists.
+
+[questionare.py:20]:2023-05-10 14:12:49 INFO New question created successfully
+[questionare.py:20]:2023-05-10 14:13:37 INFO New question created successfully
+[questionare.py:20]:2023-05-10 14:14:07 INFO New question created successfully
+[questionare.py:20]:2023-05-10 14:14:37 INFO New question created successfully
+[questionare.py:33]:2023-05-10 14:58:07 INFO New option added successfully
+[questionare.py:33]:2023-05-10 15:26:59 INFO New option added successfully
+[questionare.py:19]:2023-05-10 16:36:54 INFO New question created successfully
+[questionare.py:33]:2023-05-10 16:37:15 INFO New option added successfully
+[questionare.py:52]:2023-05-10 16:37:37 INFO Question deleted successfully with id 1
+[user.py:72]:2023-05-10 17:28:09 INFO File uploaded successfully..
+[user.py:72]:2023-05-10 17:28:46 INFO File uploaded successfully..

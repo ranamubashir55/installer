@@ -14,3 +14,18 @@ class User(Base):
     password = Column(String(length=100), nullable=False)
     account_type = Column(String(length=50), default="individual")
     password_change_token = Column(String, default=None)
+
+
+class Question(Base):
+    __tablename__ = "questions"
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    question_text = Column(String, unique=True, nullable=False)
+    options = relationship('Option', cascade='all, delete', backref='question')
+
+class Option(Base):
+    __tablename__ = "options"
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    question_id = Column(Integer, ForeignKey('questions.id', ondelete='CASCADE'))
+    option_text = Column(String, unique=True, nullable=False)
