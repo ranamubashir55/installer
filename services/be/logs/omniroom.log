@@ -1,0 +1,24 @@
+[user.py:17]:2023-05-08 13:33:11 INFO New user created successfully
+[user.py:21]:2023-05-08 13:33:11 ERROR IntegrityError: duplicate key value violates unique constraint "users_mobile_key"
+DETAIL:  Key (mobile)=(923316888416) already exists.
+
+[user.py:17]:2023-05-08 13:38:43 INFO New user created successfully
+[user.py:21]:2023-05-08 13:38:43 ERROR IntegrityError: duplicate key value violates unique constraint "users_mobile_key"
+DETAIL:  Key (mobile)=(923316888416) already exists.
+
+[user.py:17]:2023-05-08 13:44:08 INFO New user created successfully
+[user.py:21]:2023-05-08 13:44:08 ERROR IntegrityError: duplicate key value violates unique constraint "users_mobile_key"
+DETAIL:  Key (mobile)=(923316888416) already exists.
+
+[user.py:17]:2023-05-09 07:03:31 INFO New user created successfully
+[user.py:17]:2023-05-09 09:43:22 INFO New user created successfully
+[user.py:17]:2023-05-09 09:44:27 INFO New user created successfully
+[user.py:17]:2023-05-09 09:44:30 INFO New user created successfully
+[user.py:21]:2023-05-09 09:44:30 ERROR IntegrityError: duplicate key value violates unique constraint "users_mobile_key"
+DETAIL:  Key (mobile)=(923316888416) already exists.
+
+[user.py:18]:2023-05-09 12:03:11 INFO New user created successfully
+[user.py:18]:2023-05-09 12:04:03 INFO New user created successfully
+[user.py:20]:2023-05-09 12:06:05 INFO New user created successfully
+[user.py:19]:2023-05-09 12:11:11 INFO New user created successfully
+[user.py:19]:2023-05-09 12:11:40 INFO New user created successfully
