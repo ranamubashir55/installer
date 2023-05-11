@@ -98,10 +98,10 @@ def update_password(db_session, user, email):
 
 def send_password_reset_email(db_session, server_url, receiver_email: str):
     """Send email to user for password reset link"""
-    port = os.getenv('SMTP_PORT', default=465)
-    smtp_server = str(os.getenv('SMTP_SERVER', default="smtp.gmail.com"))
-    sender_email = str(os.getenv('SENDER_EMAIL', default="noreply@darvis.com"))
-    password = str(os.getenv('SENDER_PASSWORD', default="xehjrdnjemrwxxfi"))
+    port = os.getenv("SMTP_PORT", default=465)
+    smtp_server = str(os.getenv("SMTP_SERVER", default="smtp.gmail.com"))
+    sender_email = str(os.getenv("SENDER_EMAIL", default="noreply@darvis.com"))
+    password = str(os.getenv("SENDER_PASSWORD", default="xehjrdnjemrwxxfi"))
     token = AuthJWT().create_access_token(subject=receiver_email)
     message = MIMEMultipart("alternative")
     message["Subject"] = "Change password"

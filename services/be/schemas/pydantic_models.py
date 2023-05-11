@@ -5,7 +5,10 @@ from datetime import timedelta
 
 class AuthSettings(BaseModel):
     """Settings for Access Control using fastapi_jwt_auth"""
-    authjwt_secret_key: str = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
+
+    authjwt_secret_key: str = (
+        "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
+    )
     authjwt_access_token_expires: int = 3600
     authjwt_refresh_token_expires: int = 3600
     redis_access_expires: int = timedelta(seconds=3600)
@@ -15,8 +18,8 @@ class AuthSettings(BaseModel):
 
 
 class AccountTypeEnum(str, Enum):
-    INDIVIDUAL = 'individual'
-    ORGANIZATION = 'organization'
+    INDIVIDUAL = "individual"
+    ORGANIZATION = "organization"
 
 
 class UserCreate(BaseModel):
@@ -43,3 +46,9 @@ class ForgotPassword(BaseModel):
 class OptionCreate(BaseModel):
     question_id: int
     option_text: str
+
+
+class ServiceCreate(BaseModel):
+    service_name: str
+    service_category_id: int
+    service_description: str

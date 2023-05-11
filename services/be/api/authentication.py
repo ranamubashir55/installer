@@ -4,11 +4,18 @@ from sqlalchemy.orm import Session
 from fastapi_jwt_auth import AuthJWT
 from db.database import get_db
 from schemas import pydantic_models as schemas
-from utils.auth import get_verify_user, is_valid_email, send_password_reset_email, is_valid_password_token, \
-    validate_change_password_token, validate_password, update_password
+from utils.auth import (
+    get_verify_user,
+    is_valid_email,
+    send_password_reset_email,
+    is_valid_password_token,
+    validate_change_password_token,
+    validate_password,
+    update_password,
+)
 import logging, jwt
 
-log = logging.getLogger('omniroom-logger')
+log = logging.getLogger("omniroom-logger")
 router = APIRouter()
 settings = schemas.AuthSettings()
 
@@ -21,7 +28,7 @@ def get_config():
 
 """Setup our redis connection for storing the denylist tokens """
 print("Connecting to rediss...")
-redis_conn = Redis(host='redis', port=6379, decode_responses=True)
+redis_conn = Redis(host="redis", port=6379, decode_responses=True)
 for key in redis_conn.scan_iter():
     print(key + " =")
     print(redis_conn.get(key))
@@ -35,16 +42,20 @@ def check_if_token_in_denylist(decrypted_token):
     case, we will just store the tokens jti (unique identifier) in redis.
     This function will return the revoked status of a token. If a token exists
     in redis and value is true, token has been revoked"""
-    jti = decrypted_token['jti']
+    jti = decrypted_token["jti"]
     entry = redis_conn.get(jti)
-    return entry and entry == 'true'
+    return entry and entry == "true"
 
 
 """Login outh2 authetication"""
 
 
 @router.post("/login", status_code=status.HTTP_200_OK)
-def login(user: schemas.UserLogin, db: Session = Depends(get_db), Authorize: AuthJWT = Depends()):
+def login(
+    user: schemas.UserLogin,
+    db: Session = Depends(get_db),
+    Authorize: AuthJWT = Depends(),
+):
     user = get_verify_user(db, user.email, user.password)
     if not user:
         raise HTTPException(
@@ -55,10 +66,14 @@ def login(user: schemas.UserLogin, db: Session = Depends(get_db), Authorize: Aut
     if user:
         new_access_token = Authorize.create_access_token(subject=user.email)
         new_refresh_token = Authorize.create_refresh_token(subject=user.email)
-        return {"access_token": new_access_token, "refresh_token": new_refresh_token, "user_id": user.id}
+        return {
+            "access_token": new_access_token,
+            "refresh_token": new_refresh_token,
+            "user_id": user.id,
+        }
 
 
-@router.post('/refreshToken', status_code=status.HTTP_200_OK)
+@router.post("/refreshToken", status_code=status.HTTP_200_OK)
 def refresh_token(Authorize: AuthJWT = Depends()):
     """
     The jwt_refresh_token_required() function insures a valid refresh
@@ -73,23 +88,25 @@ def refresh_token(Authorize: AuthJWT = Depends()):
     return {"access_token": new_access_token}
 
 
-@router.delete('/logout', status_code=status.HTTP_200_OK)
+@router.delete("/logout", status_code=status.HTTP_200_OK)
 def logout_and_revoke_tokens(refresh_token: str, Authorize: AuthJWT = Depends()):
     """Store both access and refresh tokens in redis with the value true for revoked.
     We also set an expires time on these tokens in redis,
     so they will get automatically removed after they expired."""
     Authorize.jwt_required()
-    access_jti = Authorize.get_raw_jwt()['jti']
+    access_jti = Authorize.get_raw_jwt()["jti"]
     refresh_jti = Authorize.get_jti(refresh_token)
-    redis_conn.setex(access_jti, settings.redis_access_expires, 'true')
-    redis_conn.setex(refresh_jti, settings.redis_refresh_expires, 'true')
+    redis_conn.setex(access_jti, settings.redis_access_expires, "true")
+    redis_conn.setex(refresh_jti, settings.redis_refresh_expires, "true")
     return {"Result": "Tokens have been revoked"}
 
 
 @router.post("/forgot_password", status_code=status.HTTP_200_OK)
-def forgot_password(req: Request, email: str = Body(..., embed=True), db: Session = Depends(get_db)):
+def forgot_password(
+    req: Request, email: str = Body(..., embed=True), db: Session = Depends(get_db)
+):
     if is_valid_email(db, email):
-        server_url = req.headers.get('origin')
+        server_url = req.headers.get("origin")
         server_url = server_url.split(":")
         server_url = f"{server_url[0]}:{server_url[1]}:8080"
         token = send_password_reset_email(db, server_url, receiver_email=email)
@@ -108,7 +125,9 @@ def change_password(user: schemas.ForgotPassword, db: Session = Depends(get_db))
         raise HTTPException(status_code=400, detail="Invalid email")
     if not is_valid_password_token(db, token=user.token, email=email):
         raise HTTPException(status_code=401, detail="Unauthorized")
-    if validate_change_password_token(token=user.token, secret_key=settings.authjwt_secret_key):
+    if validate_change_password_token(
+        token=user.token, secret_key=settings.authjwt_secret_key
+    ):
         if user.new_password != user.confirm_new_password:
             raise HTTPException(status_code=400, detail="Password mismatch")
         if not validate_password(password=user.new_password):

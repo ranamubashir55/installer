@@ -1,6 +1,7 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import relationship
 from db.database import Base
+
 
 class User(Base):
     __tablename__ = "users"
@@ -21,11 +22,33 @@ class Question(Base):
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     question_text = Column(String, unique=True, nullable=False)
-    options = relationship('Option', cascade='all, delete', backref='question')
+    options = relationship("Option", cascade="all, delete", backref="question")
+
 
 class Option(Base):
     __tablename__ = "options"
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    question_id = Column(Integer, ForeignKey('questions.id', ondelete='CASCADE'))
+    question_id = Column(Integer, ForeignKey("questions.id", ondelete="CASCADE"))
     option_text = Column(String, unique=True, nullable=False)
+
+
+class ServiceCategory(Base):
+    __tablename__ = "service_category"
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    category_name = Column(String, unique=True, nullable=False)
+    digital_services = relationship(
+        "Services", cascade="all, delete", backref="service_category"
+    )
+
+
+class Services(Base):
+    __tablename__ = "digital_services"
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    service_category_id = Column(
+        Integer, ForeignKey("service_category.id", ondelete="CASCADE")
+    )
+    service_name = Column(String, unique=True, nullable=False)
+    service_description = Column(Text, default=None)

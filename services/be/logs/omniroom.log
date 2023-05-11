@@ -55,3 +55,16 @@ DETAIL:  Key (question_text)=(What do you want to optimize?) already exists.
 [questionare.py:52]:2023-05-10 16:37:37 INFO Question deleted successfully with id 1
 [user.py:72]:2023-05-10 17:28:09 INFO File uploaded successfully..
 [user.py:72]:2023-05-10 17:28:46 INFO File uploaded successfully..
+[user.py:51]:2023-05-11 09:50:11 INFO User updated successfully
+[user.py:51]:2023-05-11 09:50:38 INFO User updated successfully
+[user.py:51]:2023-05-11 09:51:00 INFO User updated successfully
+[user.py:23]:2023-05-11 10:03:17 INFO New user created successfully
+[user.py:62]:2023-05-11 10:03:36 INFO User deleted successfully with id 7
+[services.py:19]:2023-05-11 11:30:04 INFO New service category created successfully
+[services.py:32]:2023-05-11 14:17:54 ERROR Create: IntegrityError: insert or update on table "digital_services" violates foreign key constraint "digital_services_service_category_id_fkey"
+DETAIL:  Key (service_category_id)=(0) is not present in table "service_category".
+
+[services.py:33]:2023-05-11 14:29:25 INFO New service created successfully
+[services.py:36]:2023-05-11 14:29:28 ERROR Create: IntegrityError: duplicate key value violates unique constraint "digital_services_service_name_key"
+DETAIL:  Key (service_name)=(Inventory Track & Trace) already exists.
+

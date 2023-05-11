@@ -3,13 +3,17 @@ from functools import lru_cache
 from fastapi.routing import APIRoute
 from fastapi.openapi.utils import get_openapi
 from pydantic import (  # BaseSettings automatically reads from environment variables for config settings
-    AnyUrl, BaseSettings)
+    AnyUrl,
+    BaseSettings,
+)
 
 log = logging.getLogger("uvicorn")
 
 
 # environment-specific configuration variables
-class Settings(BaseSettings):  # environment: str = "dev" is equivalent to environment: str = os.getenv("ENVIRONMENT", "dev")
+class Settings(
+    BaseSettings
+):  # environment: str = "dev" is equivalent to environment: str = os.getenv("ENVIRONMENT", "dev")
     environment: str = "dev"  # e.g. dev, stage, prod
     testing: bool = bool(0)  # whether or not we're in test mode
     database_url: AnyUrl = None
@@ -22,7 +26,7 @@ def get_settings() -> BaseSettings:
 
 
 def create_dirs():
-    folders = ['/logs', '/uploads']
+    folders = ["/logs", "/uploads"]
     for dir in folders:
         isExist = os.path.exists(os.getcwd() + dir)
         if not isExist:
@@ -54,8 +58,8 @@ def log_config():
                 "mode": "a",
                 "encoding": "utf-8",
                 "maxBytes": 500000,
-                "backupCount": 4
-            }
+                "backupCount": 4,
+            },
         },
         "loggers": {
             "omniroom-logger": {"handlers": ["console", "file"], "level": "INFO"},
@@ -83,7 +87,7 @@ def custom_openapi(app):
             "type": "apiKey",
             "in": "header",
             "name": "Authorization",
-            "description": "Enter: **'Bearer &lt;JWT&gt;'**, where JWT is the access token"
+            "description": "Enter: **'Bearer &lt;JWT&gt;'**, where JWT is the access token",
         }
     }
     # Get all routes where jwt_optional() or jwt_required
@@ -95,15 +99,13 @@ def custom_openapi(app):
         for method in methods:
             # access_token
             if (
-                    re.search("Depends\\(authenticate\\)", inspect.getsource(endpoint)) or
-                    re.search("jwt_required", inspect.getsource(endpoint)) or
-                    re.search("jwt_refresh_token_required", inspect.getsource(endpoint)) or
-                    re.search("jwt_optional", inspect.getsource(endpoint))
+                re.search("Depends\\(authenticate\\)", inspect.getsource(endpoint))
+                or re.search("jwt_required", inspect.getsource(endpoint))
+                or re.search("jwt_refresh_token_required", inspect.getsource(endpoint))
+                or re.search("jwt_optional", inspect.getsource(endpoint))
             ):
                 openapi_schema["paths"][path][method]["security"] = [
-                    {
-                        "Bearer Auth": []
-                    }
+                    {"Bearer Auth": []}
                 ]
     app.openapi_schema = openapi_schema
     return app.openapi_schema
